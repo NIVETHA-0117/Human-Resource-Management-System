@@ -1,510 +1,6279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dayflow HRMS</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dayflow | Human Resource Management System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        :root {
+            --primary: #2f5d50;
+            --primary-dark: #22453b;
+            --primary-light: #e8f0ec;
+
+            --accent: #c98a3e;
+            --accent-light: #fff2df;
+
+            --bg: #f5f6f2;
+            --white: #ffffff;
+
+            --text: #1c2b2d;
+            --muted: #6b7472;
+
+            --border: #e1e5df;
+
+            --success: #2e7d5b;
+            --success-bg: #e7f5ed;
+
+            --danger: #b3452f;
+            --danger-bg: #fce8e4;
+
+            --warning: #a96d18;
+            --warning-bg: #fff3dc;
+
+            --shadow: 0 12px 35px rgba(28, 43, 45, 0.08);
+
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 17px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .btn-success {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        /* =====================================================
+           LOGIN / AUTH
+        ===================================================== */
+
+        #authSection {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #dcebe5,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #f2dfc8,
+                    transparent 32%
+                ),
+                var(--bg);
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 650px;
+
+            background: white;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.12);
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .auth-brand {
+            background:
+                linear-gradient(
+                    145deg,
+                    #2f5d50,
+                    #22453b
+                );
+
+            color: white;
+
+            padding: 55px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .auth-brand::after {
+            content: "";
+
+            width: 420px;
+            height: 420px;
+
+            border-radius: 50%;
+
+            border: 80px solid rgba(255,255,255,0.05);
+
+            position: absolute;
+
+            right: -180px;
+            bottom: -170px;
+        }
+
+        .brand-logo {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo span {
+            color: #e0a159;
+        }
+
+        .auth-brand h1 {
+            font-size: 42px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .auth-brand p {
+            color: #d8e6e0;
+            line-height: 1.7;
+            max-width: 440px;
+        }
+
+        .brand-features {
+            margin-top: 35px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .brand-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e3eee9;
+            font-size: 14px;
+        }
+
+        .feature-icon {
+            width: 35px;
+            height: 35px;
+
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.10);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-panel {
+            padding: 45px 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-title {
+            font-size: 29px;
+            margin-bottom: 7px;
+        }
+
+        .auth-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .role-switch {
+            background: #f0f2ee;
+
+            padding: 5px;
+
+            border-radius: 11px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 5px;
+
+            margin-bottom: 20px;
+        }
+
+        .role-switch button {
+            border: none;
+
+            padding: 11px;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            font-weight: 700;
+        }
+
+        .role-switch button.active {
+            background: white;
+
+            color: var(--primary);
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.07);
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            border-bottom: 1px solid var(--border);
+
+            margin-bottom: 22px;
+        }
+
+        .auth-tab {
+            border: none;
+
+            background: transparent;
+
+            padding: 12px;
+
+            color: var(--muted);
+
+            font-weight: 700;
+
+            border-bottom: 2px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+
+            border-bottom-color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            width: 100%;
+
+            border: 1px solid var(--border);
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 12px 13px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 3px rgba(47,93,80,0.10);
+        }
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 14px;
+        }
+
+        .auth-message {
+            margin-bottom: 15px;
+        }
+
+        .alert {
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .alert-error {
+            background: var(--danger-bg);
+
+            color: var(--danger);
+        }
+
+        .alert-success {
+            background: var(--success-bg);
+
+            color: var(--success);
+        }
+
+        .demo-box {
+            background: #f8f8f5;
+
+            border: 1px solid #e9e7df;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            margin-top: 16px;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+
+            color: var(--muted);
+        }
+
+        .demo-box strong {
+            color: var(--text);
+        }
+
+        /* =====================================================
+           APPLICATION
+        ===================================================== */
+
+        #app {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            background: var(--primary);
+
+            color: white;
+
+            padding: 24px 15px;
+
+            z-index: 100;
+
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            font-size: 25px;
+
+            font-weight: 800;
+
+            padding: 0 13px 25px;
+        }
+
+        .sidebar-logo span {
+            color: #e0a159;
+        }
+
+        .sidebar-user {
+            padding: 14px;
+
+            border-radius: 13px;
+
+            background: rgba(255,255,255,0.08);
+
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #df9f58;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+            flex-shrink: 0;
+        }
+
+        .sidebar-user-name {
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .sidebar-user-role {
+            font-size: 10px;
+
+            color: #c9d9d3;
+
+            margin-top: 3px;
+        }
+
+        .nav-section-title {
+            font-size: 10px;
+
+            color: #9db4ac;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 10px 13px;
+        }
+
+        .nav-item {
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            color: #d7e4df;
+
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            text-align: left;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 3px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,0.11);
+
+            color: white;
+        }
+
+        .nav-icon {
+            width: 20px;
+
+            text-align: center;
+        }
+
+        .logout-section {
+            margin-top: 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.1);
+
+            padding-top: 15px;
+        }
+
+        .main {
+            margin-left: 250px;
+
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 75px;
+
+            background: white;
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 50;
+        }
+
+        .topbar-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .mobile-menu {
+            display: none;
+
+            border: none;
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 9px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+        .current-date {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+        .content {
+            padding: 30px;
+
+            max-width: 1500px;
+
+            margin: auto;
+        }
+
+        /* =====================================================
+           DASHBOARD
+        ===================================================== */
+
+        .welcome-banner {
+            background:
+                linear-gradient(
+                    120deg,
+                    var(--primary),
+                    #3c7464
+                );
+
+            color: white;
+
+            border-radius: var(--radius);
+
+            padding: 27px;
+
+            margin-bottom: 22px;
+        }
+
+        .welcome-banner h1 {
+            font-size: 25px;
+
+            margin-bottom: 6px;
+        }
+
+        .welcome-banner p {
+            color: #d8e7e1;
+
+            font-size: 13px;
+        }
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 17px;
+
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 19px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .stat-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+        }
+
+        .stat-value {
+            font-size: 25px;
+
+            font-weight: 800;
+        }
+
+        .stat-label {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 4px;
+        }
+
+        .grid-2 {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+
+            padding: 21px;
+
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+        .card-title {
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+        .muted {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f7f8f5;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+            text-align: left;
+
+            padding: 12px;
+        }
+
+        td {
+            padding: 13px 12px;
+
+            border-bottom: 1px solid var(--border);
+
+            font-size: 12px;
+
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =====================================================
+           BADGES
+        ===================================================== */
+
+        .badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+        .badge-success {
+            background: var(--success-bg);
+
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning-bg);
+
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: var(--danger-bg);
+
+            color: var(--danger);
+        }
+
+        .badge-info {
+            background: #e7eef5;
+
+            color: #41647c;
+        }
+
+        /* =====================================================
+           PROFILE
+        ===================================================== */
+
+        .profile-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .profile-avatar {
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 26px;
+
+            font-weight: 800;
+        }
+
+        .profile-name {
+            font-size: 22px;
+
+            font-weight: 800;
+
+            margin-bottom: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 13px;
+        }
+
+        .info-box {
+            background: #f7f8f5;
+
+            border-radius: 10px;
+
+            padding: 13px;
+        }
+
+        .info-box small {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress {
+            height: 7px;
+
+            background: #e8ebe7;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+
+            background: var(--primary);
+
+            border-radius: 20px;
+        }
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .empty-state {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .actions {
+            display: flex;
+
+            gap: 6px;
+
+            flex-wrap: wrap;
+        }
+
+        .actions .btn {
+            padding: 7px 10px;
+
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(20,30,28,0.55);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+
+            width: 100%;
+
+            max-width: 560px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            border-radius: 18px;
+
+            padding: 25px;
+        }
+
+        .modal-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+        }
+
+        .close-btn {
+            border: none;
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: #f0f2ef;
+
+            font-size: 18px;
+        }
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        #toast {
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            background: #1e302c;
+
+            color: white;
+
+            padding: 13px 17px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+
+            box-shadow: var(--shadow);
+
+            opacity: 0;
+
+            transform: translateY(20px);
+
+            pointer-events: none;
+
+            transition: 0.3s;
+
+            z-index: 2000;
+        }
+
+        #toast.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+
+            #authSection {
+                padding: 15px;
+            }
+
+            .auth-container {
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+            }
+
+            .auth-brand {
+                display: none;
+            }
+
+            .auth-panel {
+                padding: 35px 25px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+
+                transition: 0.25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN / SIGNUP ================= -->
-<div id="authPage" class="auth-wrap">
+<!-- =========================================================
+     AUTHENTICATION
+========================================================= -->
 
-  <!-- SIGN IN -->
-  <div id="signinCard" class="auth-card">
-    <div class="auth-brand">
-      <div class="mark">D</div>
-      <div>
-        <h2>Dayflow</h2>
-        <small>HR Management System</small>
-      </div>
+<section id="authSection">
+
+    <div class="auth-container">
+
+        <!-- LEFT BRAND PANEL -->
+
+        <div class="auth-brand">
+
+            <div class="brand-logo">
+                Day<span>flow</span>
+            </div>
+
+            <h1>
+                Every workday,<br>
+                perfectly aligned.
+            </h1>
+
+            <p>
+                Dayflow is a Human Resource Management System
+                designed to simplify employee management,
+                attendance, leave management and payroll
+                operations.
+            </p>
+
+            <div class="brand-features">
+
+                <div class="brand-feature">
+                    <div class="feature-icon">✓</div>
+                    Employee Management
+                </div>
+
+                <div class="brand-feature">
+                    <div class="feature-icon">✓</div>
+                    Attendance Tracking
+                </div>
+
+                <div class="brand-feature">
+                    <div class="feature-icon">✓</div>
+                    Leave Management
+                </div>
+
+                <div class="brand-feature">
+                    <div class="feature-icon">✓</div>
+                    Payroll Management
+                </div>
+
+                <div class="brand-feature">
+                    <div class="feature-icon">✓</div>
+                    HR Reports & Analytics
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT AUTH PANEL -->
+
+        <div class="auth-panel">
+
+            <h2 class="auth-title" id="authTitle">
+                Welcome back
+            </h2>
+
+            <p class="auth-subtitle" id="authSubtitle">
+                Sign in to continue to Dayflow.
+            </p>
+
+
+            <!-- ROLE -->
+
+            <div class="role-switch">
+
+                <button
+                    id="employeeRole"
+                    class="active"
+                    onclick="selectRole('employee')">
+
+                    Employee
+
+                </button>
+
+                <button
+                    id="adminRole"
+                    onclick="selectRole('admin')">
+
+                    Admin / HR
+
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN / REGISTER TABS -->
+
+            <div class="auth-tabs">
+
+                <button
+                    id="loginTab"
+                    class="auth-tab active"
+                    onclick="showAuthForm('login')">
+
+                    Sign In
+
+                </button>
+
+                <button
+                    id="registerTab"
+                    class="auth-tab"
+                    onclick="showAuthForm('register')">
+
+                    Create Account
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="authMessage"
+                class="auth-message">
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN FORM
+            ================================================== -->
+
+            <form
+                id="loginForm"
+                onsubmit="handleLogin(event)">
+
+                <div class="form-group">
+
+                    <label for="loginEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        id="loginEmail"
+                        class="form-control"
+                        type="email"
+                        placeholder="Enter your email"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        id="loginPassword"
+                        class="form-control"
+                        type="password"
+                        placeholder="Enter your password"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary full-width">
+
+                    Sign In
+
+                </button>
+
+
+                <div class="demo-box">
+
+                    <strong>Demo Admin</strong><br>
+
+                    Email:
+                    admin@dayflow.com<br>
+
+                    Password:
+                    admin123
+
+                    <br><br>
+
+                    <strong>Demo Employee</strong><br>
+
+                    Email:
+                    employee@dayflow.com<br>
+
+                    Password:
+                    employee123
+
+                </div>
+
+            </form>
+
+
+            <!-- =================================================
+                 REGISTER FORM
+            ================================================== -->
+
+            <form
+                id="registerForm"
+                class="hidden"
+                onsubmit="handleRegister(event)">
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            id="registerName"
+                            class="form-control"
+                            type="text"
+                            placeholder="Enter full name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            id="registerPhone"
+                            class="form-control"
+                            type="tel"
+                            placeholder="Enter phone number"
+                            pattern="[0-9]{10}"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        id="registerEmail"
+                        class="form-control"
+                        type="email"
+                        placeholder="Enter email"
+                        required>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Department
+                        </label>
+
+                        <select
+                            id="registerDepartment"
+                            class="form-control"
+                            required>
+
+                            <option value="">
+                                Select Department
+                            </option>
+
+                            <option>
+                                Information Technology
+                            </option>
+
+                            <option>
+                                Human Resources
+                            </option>
+
+                            <option>
+                                Finance
+                            </option>
+
+                            <option>
+                                Marketing
+                            </option>
+
+                            <option>
+                                Operations
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Designation
+                        </label>
+
+                        <input
+                            id="registerDesignation"
+                            class="form-control"
+                            type="text"
+                            placeholder="Software Developer"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                        </label>
+
+                        <input
+                            id="registerPassword"
+                            class="form-control"
+                            type="password"
+                            placeholder="Minimum 6 characters"
+                            minlength="6"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Confirm Password
+                        </label>
+
+                        <input
+                            id="registerConfirmPassword"
+                            class="form-control"
+                            type="password"
+                            placeholder="Confirm password"
+                            minlength="6"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary full-width">
+
+                    Create Employee Account
+
+                </button>
+
+
+                <div class="demo-box">
+
+                    <strong>Note:</strong>
+
+                    New accounts are created as
+                    Employee accounts.
+
+                    Admin accounts can only be created
+                    by the system administrator.
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <h2>Welcome back</h2>
-    <p class="muted">Sign in to your account</p>
+</section>
 
-    <div id="signinError" class="err"></div>
 
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="si_email" placeholder="Enter email">
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<section
+    id="app"
+    class="hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside
+        id="sidebar"
+        class="sidebar">
+
+        <div class="sidebar-logo">
+            Day<span>flow</span>
+        </div>
+
+
+        <div class="sidebar-user">
+
+            <div class="sidebar-user-row">
+
+                <div
+                    id="sidebarAvatar"
+                    class="avatar">
+
+                    U
+
+                </div>
+
+                <div>
+
+                    <div
+                        id="sidebarName"
+                        class="sidebar-user-name">
+
+                        User
+
+                    </div>
+
+                    <div
+                        id="sidebarRole"
+                        class="sidebar-user-role">
+
+                        Employee
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-section-title">
+            Main
+        </div>
+
+
+        <button
+            class="nav-item active"
+            data-page="dashboard"
+            onclick="navigate('dashboard')">
+
+            <span class="nav-icon">▦</span>
+
+            Dashboard
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="profile"
+            onclick="navigate('profile')">
+
+            <span class="nav-icon">◯</span>
+
+            My Profile
+
+        </button>
+
+
+        <div id="employeeNavigation">
+
+            <button
+                class="nav-item"
+                data-page="attendance"
+                onclick="navigate('attendance')">
+
+                <span class="nav-icon">✓</span>
+
+                Attendance
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="leave"
+                onclick="navigate('leave')">
+
+                <span class="nav-icon">▣</span>
+
+                Leave Management
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="payroll"
+                onclick="navigate('payroll')">
+
+                <span class="nav-icon">₹</span>
+
+                Payroll
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="adminNavigation"
+            class="hidden">
+
+            <div class="nav-section-title">
+                Administration
+            </div>
+
+
+            <button
+                class="nav-item"
+                data-page="employees"
+                onclick="navigate('employees')">
+
+                <span class="nav-icon">♙</span>
+
+                Employees
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="leaveRequests"
+                onclick="navigate('leaveRequests')">
+
+                <span class="nav-icon">▤</span>
+
+                Leave Requests
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="attendanceReport"
+                onclick="navigate('attendanceReport')">
+
+                <span class="nav-icon">▥</span>
+
+                Attendance Report
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="payrollAdmin"
+                onclick="navigate('payrollAdmin')">
+
+                <span class="nav-icon">₹</span>
+
+                Payroll Management
+
+            </button>
+
+        </div>
+
+
+        <div class="logout-section">
+
+            <button
+                class="nav-item"
+                onclick="logout()">
+
+                <span class="nav-icon">↪</span>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu"
+                    onclick="toggleSidebar()">
+
+                    ☰
+
+                </button>
+
+                <div>
+
+                    <div
+                        id="pageTitle"
+                        class="page-title">
+
+                        Dashboard
+
+                    </div>
+
+                    <div
+                        id="currentDate"
+                        class="current-date">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="topAvatar"
+                class="avatar">
+
+                U
+
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <div
+                id="page-dashboard"
+                class="page">
+
+                <div class="welcome-banner">
+
+                    <h1 id="welcomeTitle">
+                        Welcome!
+                    </h1>
+
+                    <p id="welcomeText">
+                        Here's your Dayflow overview.
+                    </p>
+
+                </div>
+
+
+                <div id="dashboardContent"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROFILE
+            ================================================== -->
+
+            <div
+                id="page-profile"
+                class="page hidden">
+
+                <div class="card">
+
+                    <div class="profile-header">
+
+                        <div
+                            id="profileAvatar"
+                            class="profile-avatar">
+
+                            U
+
+                        </div>
+
+                        <div>
+
+                            <div
+                                id="profileName"
+                                class="profile-name">
+
+                                User
+
+                            </div>
+
+                            <div
+                                id="profileRole"
+                                class="muted">
+
+                                Employee
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="profileContent"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ATTENDANCE
+            ================================================== -->
+
+            <div
+                id="page-attendance"
+                class="page hidden">
+
+                <div id="attendanceContent"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LEAVE
+            ================================================== -->
+
+            <div
+                id="page-leave"
+                class="page hidden">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Leave Management
+                            </div>
+
+                            <div class="muted">
+                                Apply for leave and track your requests.
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="openLeaveModal()">
+
+                            + Apply Leave
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="employeeLeaveContent"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PAYROLL
+            ================================================== -->
+
+            <div
+                id="page-payroll"
+                class="page hidden">
+
+                <div id="payrollContent"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 EMPLOYEES
+            ================================================== -->
+
+            <div
+                id="page-employees"
+                class="page hidden">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Employee Management
+                            </div>
+
+                            <div class="muted">
+                                Manage employees and HR records.
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="openEmployeeModal()">
+
+                            + Add Employee
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <input
+                            id="employeeSearch"
+                            class="form-control"
+                            placeholder="Search by name, ID or department..."
+                            oninput="renderEmployees()">
+
+                    </div>
+
+
+                    <div id="employeesContent"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LEAVE REQUESTS
+            ================================================== -->
+
+            <div
+                id="page-leaveRequests"
+                class="page hidden">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Leave Requests
+                            </div>
+
+                            <div class="muted">
+                                Approve or reject employee leave requests.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="leaveRequestsContent"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ATTENDANCE REPORT
+            ================================================== -->
+
+            <div
+                id="page-attendanceReport"
+                class="page hidden">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Attendance Report
+                            </div>
+
+                            <div class="muted">
+                                Organization-wide attendance summary.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="attendanceReportContent"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADMIN PAYROLL
+            ================================================== -->
+
+            <div
+                id="page-payrollAdmin"
+                class="page hidden">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Payroll Management
+                            </div>
+
+                            <div class="muted">
+                                View employee salary information.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="payrollAdminContent"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</section>
+
+
+<!-- =========================================================
+     LEAVE MODAL
+========================================================= -->
+
+<div
+    id="leaveModal"
+    class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>
+                Apply for Leave
+            </h3>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('leaveModal')">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <form
+            id="leaveForm"
+            onsubmit="submitLeave(event)">
+
+            <div class="form-group">
+
+                <label>
+                    Leave Type
+                </label>
+
+                <select
+                    id="leaveType"
+                    class="form-control"
+                    required>
+
+                    <option value="">
+                        Select leave type
+                    </option>
+
+                    <option>
+                        Casual Leave
+                    </option>
+
+                    <option>
+                        Sick Leave
+                    </option>
+
+                    <option>
+                        Earned Leave
+                    </option>
+
+                    <option>
+                        Emergency Leave
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        From Date
+                    </label>
+
+                    <input
+                        id="leaveFrom"
+                        class="form-control"
+                        type="date"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        To Date
+                    </label>
+
+                    <input
+                        id="leaveTo"
+                        class="form-control"
+                        type="date"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Reason
+                </label>
+
+                <textarea
+                    id="leaveReason"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Enter reason for leave..."
+                    required></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary full-width">
+
+                Submit Leave Request
+
+            </button>
+
+        </form>
+
     </div>
-
-    <div class="field">
-      <label>Password</label>
-      <input type="password" id="si_pass" placeholder="Enter password">
-    </div>
-
-    <button class="btn btn-primary" onclick="handleSignin()">
-      Sign In
-    </button>
-
-    <div class="auth-switch">
-      Don't have an account?
-      <a onclick="showSignup()">Create account</a>
-    </div>
-
-    <div class="demo-box">
-      <b>Demo Admin</b><br>
-      admin@dayflow.com<br>
-      Admin1234
-
-      <br><br>
-
-      <b>Demo Employee</b><br>
-      asha@dayflow.com<br>
-      Asha1234
-    </div>
-  </div>
-
-  <!-- SIGN UP -->
-  <div id="signupCard" class="auth-card hidden">
-
-    <div class="auth-brand">
-      <div class="mark">D</div>
-      <div>
-        <h2>Dayflow</h2>
-        <small>HR Management System</small>
-      </div>
-    </div>
-
-    <h2>Create account</h2>
-    <p class="muted">Register as an employee</p>
-
-    <div id="signupError" class="err"></div>
-    <div id="signupSuccess" class="ok"></div>
-
-    <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="su_name" placeholder="Full name">
-    </div>
-
-    <div class="field">
-      <label>Employee ID</label>
-      <input type="text" id="su_empid" placeholder="EMP-1001">
-    </div>
-
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="su_email" placeholder="Email">
-    </div>
-
-    <div class="field">
-      <label>Password</label>
-      <input type="password" id="su_pass" placeholder="8+ characters and number">
-    </div>
-
-    <button class="btn btn-primary" onclick="handleSignup()">
-      Create Account
-    </button>
-
-    <div class="auth-switch">
-      Already have an account?
-      <a onclick="showSignin()">Sign in</a>
-    </div>
-
-  </div>
 
 </div>
 
 
-<!-- ================= MAIN APPLICATION ================= -->
+<!-- =========================================================
+     ADD EMPLOYEE MODAL
+========================================================= -->
 
-<div id="appPage" class="app hidden">
+<div
+    id="employeeModal"
+    class="modal">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+    <div class="modal-box">
 
-    <div class="brand">
-      <div class="mark">D</div>
-      <div>
-        <b>Dayflow</b>
-        <small>HRMS</small>
-      </div>
+        <div class="modal-header">
+
+            <h3>
+                Add New Employee
+            </h3>
+
+            <button
+                class="close-btn"
+                onclick="closeModal('employeeModal')">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <form
+            id="employeeForm"
+            onsubmit="addEmployee(event)">
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        id="newEmpName"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Employee ID
+                    </label>
+
+                    <input
+                        id="newEmpId"
+                        class="form-control"
+                        placeholder="EMP004"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    id="newEmpEmail"
+                    class="form-control"
+                    type="email"
+                    required>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Department
+                    </label>
+
+                    <select
+                        id="newEmpDepartment"
+                        class="form-control"
+                        required>
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        <option>
+                            Information Technology
+                        </option>
+
+                        <option>
+                            Human Resources
+                        </option>
+
+                        <option>
+                            Finance
+                        </option>
+
+                        <option>
+                            Marketing
+                        </option>
+
+                        <option>
+                            Operations
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Designation
+                    </label>
+
+                    <input
+                        id="newEmpDesignation"
+                        class="form-control"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Monthly Salary
+                    </label>
+
+                    <input
+                        id="newEmpSalary"
+                        class="form-control"
+                        type="number"
+                        min="0"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        id="newEmpPassword"
+                        class="form-control"
+                        type="password"
+                        minlength="6"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone
+                </label>
+
+                <input
+                    id="newEmpPhone"
+                    class="form-control"
+                    type="tel"
+                    pattern="[0-9]{10}"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary full-width">
+
+                Create Employee
+
+            </button>
+
+        </form>
+
     </div>
-
-    <nav>
-
-      <div class="nav-link active"
-           data-view="dash"
-           onclick="nav('dash')">
-        🏠 Dashboard
-      </div>
-
-      <div class="nav-link"
-           data-view="profile"
-           onclick="nav('profile')">
-        👤 Profile
-      </div>
-
-      <div class="nav-link"
-           data-view="employees"
-           id="employeesNav"
-           onclick="nav('employees')">
-        👥 Employees
-      </div>
-
-      <div class="nav-link"
-           data-view="attendance"
-           onclick="nav('attendance')">
-        🕘 Attendance
-      </div>
-
-      <div class="nav-link"
-           data-view="leave"
-           onclick="nav('leave')">
-        📅 Leave
-      </div>
-
-      <div class="nav-link"
-           data-view="payroll"
-           onclick="nav('payroll')">
-        💰 Payroll
-      </div>
-
-      <div class="nav-link"
-           data-view="reports"
-           id="reportsNav"
-           onclick="nav('reports')">
-        📊 Reports
-      </div>
-
-    </nav>
-
-    <div class="spacer"></div>
-
-    <div class="who">
-      <b id="sideName">User</b>
-      <span id="sideRole">Employee</span>
-    </div>
-
-    <button class="btn logout-btn" onclick="logout()">
-      Logout
-    </button>
-
-  </aside>
-
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- DASHBOARD -->
-    <section id="sub-dash" class="view active">
-
-      <div class="topbar">
-        <div>
-          <h1 id="dashGreeting">Welcome back</h1>
-          <p id="dashSub">Here's your day at a glance.</p>
-        </div>
-
-        <span id="todayDate"></span>
-      </div>
-
-      <div id="dashCards" class="cards"></div>
-
-      <div class="panel">
-        <h2>Recent Activity</h2>
-        <div id="dashActivity"></div>
-      </div>
-
-    </section>
-
-
-    <!-- PROFILE -->
-    <section id="sub-profile" class="view">
-
-      <div class="topbar">
-        <div>
-          <h1>My Profile</h1>
-          <p>View and edit your personal information.</p>
-        </div>
-      </div>
-
-      <div class="panel">
-
-        <div class="profile-head">
-          <div class="avatar" id="pf_avatar">U</div>
-
-          <div>
-            <h2 id="pf_name">User</h2>
-            <p id="pf_role">Employee</p>
-            <span id="pf_empid"></span>
-          </div>
-        </div>
-
-        <div class="grid2">
-
-          <div>
-            <div class="kv">
-              <span>Email</span>
-              <b id="pf_email">—</b>
-            </div>
-
-            <div class="kv">
-              <span>Department</span>
-              <b id="pf_dept">—</b>
-            </div>
-
-            <div class="kv">
-              <span>Job Title</span>
-              <b id="pf_title">—</b>
-            </div>
-
-            <div class="kv">
-              <span>Joined</span>
-              <b id="pf_joined">—</b>
-            </div>
-          </div>
-
-          <div>
-            <div class="kv">
-              <span>Phone</span>
-              <b id="pf_phone_view">—</b>
-            </div>
-
-            <div class="kv">
-              <span>Address</span>
-              <b id="pf_addr_view">—</b>
-            </div>
-          </div>
-
-        </div>
-
-        <br>
-
-        <button class="btn btn-outline" onclick="toggleEditProfile()">
-          Edit Profile
-        </button>
-
-        <div id="pf_editPanel" class="edit-panel hidden">
-
-          <div class="field">
-            <label>Phone</label>
-            <input id="pf_phone_edit">
-          </div>
-
-          <div class="field">
-            <label>Address</label>
-            <input id="pf_addr_edit">
-          </div>
-
-          <button class="btn btn-primary" onclick="saveProfile()">
-            Save Changes
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- EMPLOYEES -->
-    <section id="sub-employees" class="view">
-
-      <div class="topbar">
-        <div>
-          <h1>Employees</h1>
-          <p>Employee directory</p>
-        </div>
-      </div>
-
-      <div class="panel">
-
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Employee ID</th>
-              <th>Email</th>
-              <th>Department</th>
-              <th>Role</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody id="employeesTable"></tbody>
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ATTENDANCE -->
-    <section id="sub-attendance" class="view">
-
-      <div class="topbar">
-        <div>
-          <h1>Attendance</h1>
-          <p>Track attendance and working hours.</p>
-        </div>
-      </div>
-
-      <div id="attendanceActions" class="panel"></div>
-
-      <div class="panel">
-
-        <table>
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Check In</th>
-              <th>Check Out</th>
-            </tr>
-          </thead>
-
-          <tbody id="attendanceTable"></tbody>
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- LEAVE -->
-    <section id="sub-leave" class="view">
-
-      <div class="topbar">
-        <div>
-          <h1>Leave Management</h1>
-          <p>Apply for leave and manage requests.</p>
-        </div>
-      </div>
-
-      <div id="leaveForm" class="panel">
-
-        <h2>Apply for Leave</h2>
-
-        <div class="row2">
-
-          <div class="field">
-            <label>Leave Type</label>
-
-            <select id="lv_type">
-              <option>Casual</option>
-              <option>Sick</option>
-              <option>Annual</option>
-              <option>Emergency</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>Start Date</label>
-            <input type="date" id="lv_start">
-          </div>
-
-          <div class="field">
-            <label>End Date</label>
-            <input type="date" id="lv_end">
-          </div>
-
-        </div>
-
-        <div class="field">
-          <label>Remarks</label>
-          <input type="text" id="lv_remarks">
-        </div>
-
-        <button class="btn btn-primary" onclick="submitLeave()">
-          Submit Leave Request
-        </button>
-
-      </div>
-
-      <div class="panel">
-
-        <h2>Leave Requests</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Type</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody id="leaveTable"></tbody>
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- PAYROLL -->
-    <section id="sub-payroll" class="view">
-
-      <div class="topbar">
-        <div>
-          <h1>Payroll</h1>
-          <p>Salary and payslip information.</p>
-        </div>
-      </div>
-
-      <div id="payrollContent"></div>
-
-    </section>
-
-
-    <!-- REPORTS -->
-    <section id="sub-reports" class="view">
-
-      <div class="topbar">
-        <div>
-          <h1>Reports</h1>
-          <p>Attendance and salary reports.</p>
-        </div>
-      </div>
-
-      <div class="panel">
-
-        <h2>Attendance Summary</h2>
-
-        <div id="report_att"></div>
-
-      </div>
-
-      <div class="panel">
-
-        <h2>Generate Salary Slip</h2>
-
-        <select id="report_emp"></select>
-
-        <button class="btn btn-primary report-btn"
-                onclick="generateSlip()">
-          Generate
-        </button>
-
-        <div id="report_slip"></div>
-
-      </div>
-
-    </section>
-
-  </main>
 
 </div>
 
 
-<script src="js/data.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/nav.js"></script>
-<script src="js/dashboard.js"></script>
-<script src="js/profile.js"></script>
-<script src="js/employees.js"></script>
-<script src="js/attendance.js"></script>
-<script src="js/leave.js"></script>
-<script src="js/payroll.js"></script>
-<script src="js/reports.js"></script>
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =========================================================
+   DAYFLOW HRMS JAVASCRIPT
+========================================================= */
+
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+const defaultUsers = [
+
+    {
+        id: "EMP001",
+        name: "V. Nivetha",
+        email: "employee@dayflow.com",
+        password: "employee123",
+        role: "employee",
+        department: "Information Technology",
+        designation: "Software Developer",
+        salary: 45000,
+        phone: "9876543210",
+        joiningDate: "2026-01-10"
+    },
+
+    {
+        id: "EMP002",
+        name: "Arun Kumar",
+        email: "arun@dayflow.com",
+        password: "arun123",
+        role: "employee",
+        department: "Finance",
+        designation: "Accountant",
+        salary: 38000,
+        phone: "9876543211",
+        joiningDate: "2025-11-15"
+    },
+
+    {
+        id: "EMP003",
+        name: "Priya Sharma",
+        email: "priya@dayflow.com",
+        password: "priya123",
+        role: "employee",
+        department: "Human Resources",
+        designation: "HR Executive",
+        salary: 42000,
+        phone: "9876543212",
+        joiningDate: "2025-09-20"
+    },
+
+    {
+        id: "ADMIN001",
+        name: "Dayflow Administrator",
+        email: "admin@dayflow.com",
+        password: "admin123",
+        role: "admin",
+        department: "Human Resources",
+        designation: "HR Manager",
+        salary: 75000,
+        phone: "9876543213",
+        joiningDate: "2024-01-01"
+    }
+
+];
+
+
+function initializeDatabase() {
+
+    if (!localStorage.getItem("dayflow_users")) {
+
+        localStorage.setItem(
+            "dayflow_users",
+            JSON.stringify(defaultUsers)
+        );
+
+    }
+
+    if (!localStorage.getItem("dayflow_attendance")) {
+
+        localStorage.setItem(
+            "dayflow_attendance",
+            JSON.stringify([])
+        );
+
+    }
+
+    if (!localStorage.getItem("dayflow_leaves")) {
+
+        localStorage.setItem(
+            "dayflow_leaves",
+            JSON.stringify([])
+        );
+
+    }
+
+}
+
+
+initializeDatabase();
+
+
+let users =
+    JSON.parse(
+        localStorage.getItem("dayflow_users")
+    ) || [];
+
+
+let attendance =
+    JSON.parse(
+        localStorage.getItem("dayflow_attendance")
+    ) || [];
+
+
+let leaves =
+    JSON.parse(
+        localStorage.getItem("dayflow_leaves")
+    ) || [];
+
+
+let currentUser = null;
+
+let selectedRole = "employee";
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function saveUsers() {
+
+    localStorage.setItem(
+        "dayflow_users",
+        JSON.stringify(users)
+    );
+
+}
+
+
+function saveAttendance() {
+
+    localStorage.setItem(
+        "dayflow_attendance",
+        JSON.stringify(attendance)
+    );
+
+}
+
+
+function saveLeaves() {
+
+    localStorage.setItem(
+        "dayflow_leaves",
+        JSON.stringify(leaves)
+    );
+
+}
+
+
+/* =========================================================
+   AUTH ROLE
+========================================================= */
+
+function selectRole(role) {
+
+    selectedRole = role;
+
+    document
+        .getElementById("employeeRole")
+        .classList.toggle(
+            "active",
+            role === "employee"
+        );
+
+
+    document
+        .getElementById("adminRole")
+        .classList.toggle(
+            "active",
+            role === "admin"
+        );
+
+
+    /*
+       Admin should not be allowed
+       to create an account from the
+       public registration page.
+    */
+
+    if (
+        role === "admin" &&
+        !document
+            .getElementById("registerForm")
+            .classList.contains("hidden")
+    ) {
+
+        showAuthForm("login");
+
+    }
+
+
+    clearAuthMessage();
+
+}
+
+
+/* =========================================================
+   AUTH FORM
+========================================================= */
+
+function showAuthForm(type) {
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const registerTab =
+        document.getElementById("registerTab");
+
+
+    if (type === "login") {
+
+        loginForm.classList.remove("hidden");
+
+        registerForm.classList.add("hidden");
+
+        loginTab.classList.add("active");
+
+        registerTab.classList.remove("active");
+
+        document.getElementById("authTitle")
+            .textContent = "Welcome back";
+
+        document.getElementById("authSubtitle")
+            .textContent =
+            "Sign in to continue to Dayflow.";
+
+    }
+
+
+    else {
+
+        /*
+           Only employees can create
+           public accounts.
+        */
+
+        if (selectedRole === "admin") {
+
+            showAuthForm("login");
+
+            showAuthMessage(
+                "Admin accounts are managed by the HR administrator.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        loginForm.classList.add("hidden");
+
+        registerForm.classList.remove("hidden");
+
+        loginTab.classList.remove("active");
+
+        registerTab.classList.add("active");
+
+        document.getElementById("authTitle")
+            .textContent = "Create your account";
+
+        document.getElementById("authSubtitle")
+            .textContent =
+            "Register as a Dayflow employee.";
+
+    }
+
+
+    clearAuthMessage();
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function handleLogin(event) {
+
+    event.preventDefault();
+
+
+    const email =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    const user =
+        users.find(
+            u =>
+                u.email.toLowerCase() === email &&
+                u.password === password &&
+                u.role === selectedRole
+        );
+
+
+    if (!user) {
+
+        showAuthMessage(
+            "Invalid email, password or account type.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    currentUser = user;
+
+
+    sessionStorage.setItem(
+        "dayflow_current_user",
+        user.email
+    );
+
+
+    document
+        .getElementById("authSection")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+
+    updateUserInterface();
+
+    configureNavigation();
+
+    navigate("dashboard");
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+function handleRegister(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document
+            .getElementById("registerName")
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById("registerPhone")
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById("registerEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const department =
+        document
+            .getElementById("registerDepartment")
+            .value;
+
+
+    const designation =
+        document
+            .getElementById("registerDesignation")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("registerPassword")
+            .value;
+
+
+    const confirmPassword =
+        document
+            .getElementById("registerConfirmPassword")
+            .value;
+
+
+    /* VALIDATION */
+
+    if (password !== confirmPassword) {
+
+        showAuthMessage(
+            "Passwords do not match.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (password.length < 6) {
+
+        showAuthMessage(
+            "Password must contain at least 6 characters.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (
+        users.some(
+            u =>
+                u.email.toLowerCase() === email
+        )
+    ) {
+
+        showAuthMessage(
+            "An account with this email already exists.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /* GENERATE EMPLOYEE ID */
+
+    const employeeNumbers =
+        users
+            .filter(u => u.role === "employee")
+            .map(u =>
+                parseInt(
+                    String(u.id)
+                        .replace("EMP", "")
+                ) || 0
+            );
+
+
+    const nextNumber =
+        employeeNumbers.length
+            ? Math.max(...employeeNumbers) + 1
+            : 1;
+
+
+    const employeeId =
+        "EMP" +
+        String(nextNumber).padStart(3, "0");
+
+
+    /* CREATE USER */
+
+    const newUser = {
+
+        id: employeeId,
+
+        name: name,
+
+        email: email,
+
+        password: password,
+
+        role: "employee",
+
+        department: department,
+
+        designation: designation,
+
+        salary: 30000,
+
+        phone: phone,
+
+        joiningDate: today()
+
+    };
+
+
+    users.push(newUser);
+
+    saveUsers();
+
+
+    /* RESET */
+
+    document
+        .getElementById("registerForm")
+        .reset();
+
+
+    showAuthForm("login");
+
+
+    document
+        .getElementById("loginEmail")
+        .value = email;
+
+
+    showAuthMessage(
+        "Account created successfully! Your Employee ID is " +
+        employeeId +
+        ". You can now sign in.",
+        "success"
+    );
+
+}
+
+
+/* =========================================================
+   AUTH MESSAGE
+========================================================= */
+
+function showAuthMessage(message, type) {
+
+    const box =
+        document.getElementById("authMessage");
+
+
+    box.innerHTML = `
+
+        <div class="alert ${
+            type === "success"
+                ? "alert-success"
+                : "alert-error"
+        }">
+
+            ${escapeHTML(message)}
+
+        </div>
+
+    `;
+
+}
+
+
+function clearAuthMessage() {
+
+    document
+        .getElementById("authMessage")
+        .innerHTML = "";
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    currentUser = null;
+
+    sessionStorage.removeItem(
+        "dayflow_current_user"
+    );
+
+
+    document
+        .getElementById("app")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("authSection")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("loginForm")
+        .reset();
+
+
+    showAuthForm("login");
+
+    selectRole("employee");
+
+}
+
+
+/* =========================================================
+   AUTO LOGIN
+========================================================= */
+
+function checkExistingSession() {
+
+    const email =
+        sessionStorage.getItem(
+            "dayflow_current_user"
+        );
+
+
+    if (!email) {
+        return;
+    }
+
+
+    const user =
+        users.find(
+            u => u.email === email
+        );
+
+
+    if (!user) {
+        return;
+    }
+
+
+    currentUser = user;
+
+
+    document
+        .getElementById("authSection")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+
+    updateUserInterface();
+
+    configureNavigation();
+
+    navigate("dashboard");
+
+}
+
+
+/* =========================================================
+   USER INTERFACE
+========================================================= */
+
+function getInitials(name) {
+
+    return name
+        .split(" ")
+        .map(word => word.charAt(0))
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+}
+
+
+function updateUserInterface() {
+
+    const initials =
+        getInitials(currentUser.name);
+
+
+    document
+        .getElementById("sidebarAvatar")
+        .textContent = initials;
+
+
+    document
+        .getElementById("topAvatar")
+        .textContent = initials;
+
+
+    document
+        .getElementById("profileAvatar")
+        .textContent = initials;
+
+
+    document
+        .getElementById("sidebarName")
+        .textContent = currentUser.name;
+
+
+    document
+        .getElementById("sidebarRole")
+        .textContent =
+        currentUser.role === "admin"
+            ? "Administrator / HR"
+            : currentUser.designation;
+
+
+    document
+        .getElementById("profileName")
+        .textContent = currentUser.name;
+
+
+    document
+        .getElementById("profileRole")
+        .textContent =
+        currentUser.role === "admin"
+            ? "Administrator / HR"
+            : currentUser.designation;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function configureNavigation() {
+
+    const employeeNav =
+        document.getElementById(
+            "employeeNavigation"
+        );
+
+
+    const adminNav =
+        document.getElementById(
+            "adminNavigation"
+        );
+
+
+    if (currentUser.role === "admin") {
+
+        employeeNav.classList.add("hidden");
+
+        adminNav.classList.remove("hidden");
+
+    }
+
+    else {
+
+        employeeNav.classList.remove("hidden");
+
+        adminNav.classList.add("hidden");
+
+    }
+
+}
+
+
+function navigate(page) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(element =>
+            element.classList.add("hidden")
+        );
+
+
+    const target =
+        document.getElementById(
+            "page-" + page
+        );
+
+
+    if (!target) {
+        return;
+    }
+
+
+    target.classList.remove("hidden");
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+
+            item.classList.toggle(
+                "active",
+                item.dataset.page === page
+            );
+
+        });
+
+
+    const pageTitles = {
+
+        dashboard: "Dashboard",
+
+        profile: "My Profile",
+
+        attendance: "Attendance",
+
+        leave: "Leave Management",
+
+        payroll: "Payroll",
+
+        employees: "Employee Management",
+
+        leaveRequests: "Leave Requests",
+
+        attendanceReport: "Attendance Report",
+
+        payrollAdmin: "Payroll Management"
+
+    };
+
+
+    document
+        .getElementById("pageTitle")
+        .textContent =
+        pageTitles[page] || "Dashboard";
+
+
+    switch (page) {
+
+        case "dashboard":
+            renderDashboard();
+            break;
+
+        case "profile":
+            renderProfile();
+            break;
+
+        case "attendance":
+            renderAttendance();
+            break;
+
+        case "leave":
+            renderEmployeeLeaves();
+            break;
+
+        case "payroll":
+            renderPayroll();
+            break;
+
+        case "employees":
+            renderEmployees();
+            break;
+
+        case "leaveRequests":
+            renderLeaveRequests();
+            break;
+
+        case "attendanceReport":
+            renderAttendanceReport();
+            break;
+
+        case "payrollAdmin":
+            renderPayrollAdmin();
+            break;
+
+    }
+
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+    const hour =
+        new Date().getHours();
+
+
+    let greeting = "Good morning";
+
+
+    if (hour >= 12 && hour < 17) {
+
+        greeting = "Good afternoon";
+
+    }
+
+
+    if (hour >= 17) {
+
+        greeting = "Good evening";
+
+    }
+
+
+    document
+        .getElementById("welcomeTitle")
+        .textContent =
+        greeting +
+        ", " +
+        currentUser.name.split(" ")[0] +
+        "!";
+
+
+    if (currentUser.role === "admin") {
+
+        document
+            .getElementById("welcomeText")
+            .textContent =
+            "Here's an overview of your organization's HR operations.";
+
+        renderAdminDashboard();
+
+    }
+
+    else {
+
+        document
+            .getElementById("welcomeText")
+            .textContent =
+            "Here's your attendance, leave and payroll overview.";
+
+        renderEmployeeDashboard();
+
+    }
+
+}
+
+
+/* =========================================================
+   EMPLOYEE DASHBOARD
+========================================================= */
+
+function renderEmployeeDashboard() {
+
+    const myAttendance =
+        attendance.filter(
+            record =>
+                record.empId === currentUser.id
+        );
+
+
+    const myLeaves =
+        leaves.filter(
+            leave =>
+                leave.empId === currentUser.id
+        );
+
+
+    const present =
+        myAttendance.filter(
+            record =>
+                record.status === "Present"
+        ).length;
+
+
+    const pending =
+        myLeaves.filter(
+            leave =>
+                leave.status === "Pending"
+        ).length;
+
+
+    const approved =
+        myLeaves.filter(
+            leave =>
+                leave.status === "Approved"
+        ).length;
+
+
+    document
+        .getElementById("dashboardContent")
+        .innerHTML = `
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                        <span class="badge badge-success">
+                            Active
+                        </span>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${present}
+                    </div>
+
+                    <div class="stat-label">
+                        Days Present
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ▣
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${myLeaves.length}
+                    </div>
+
+                    <div class="stat-label">
+                        Leave Applications
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ◷
+                        </div>
+
+                        <span class="badge badge-warning">
+                            Pending
+                        </span>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${pending}
+                    </div>
+
+                    <div class="stat-label">
+                        Pending Leave Requests
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ₹
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${Number(currentUser.salary)
+                            .toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        Monthly Salary
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Today's Attendance
+                            </div>
+
+                            <div class="muted">
+                                ${formatDate(today())}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    ${todayAttendanceHTML()}
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Leave Summary
+                            </div>
+
+                            <div class="muted">
+                                Current leave activity
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-grid">
+
+                        <div class="info-box">
+
+                            <small>
+                                Approved
+                            </small>
+
+                            <strong>
+                                ${approved}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <small>
+                                Pending
+                            </small>
+
+                            <strong>
+                                ${pending}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Recent Leave Requests
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="navigate('leave')">
+
+                        View All
+
+                    </button>
+
+                </div>
+
+
+                ${renderLeaveTable(
+                    myLeaves
+                        .slice()
+                        .reverse()
+                        .slice(0, 5)
+                )}
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   ADMIN DASHBOARD
+========================================================= */
+
+function renderAdminDashboard() {
+
+    const employees =
+        users.filter(
+            user =>
+                user.role === "employee"
+        );
+
+
+    const todayRecords =
+        attendance.filter(
+            record =>
+                record.date === today()
+        );
+
+
+    const present =
+        todayRecords.filter(
+            record =>
+                record.status === "Present"
+        ).length;
+
+
+    const pendingLeaves =
+        leaves.filter(
+            leave =>
+                leave.status === "Pending"
+        ).length;
+
+
+    const totalPayroll =
+        employees.reduce(
+            (total, employee) =>
+                total +
+                Number(employee.salary || 0),
+            0
+        );
+
+
+    document
+        .getElementById("dashboardContent")
+        .innerHTML = `
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ♙
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${employees.length}
+                    </div>
+
+                    <div class="stat-label">
+                        Total Employees
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                        <span class="badge badge-success">
+                            Today
+                        </span>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${present}
+                    </div>
+
+                    <div class="stat-label">
+                        Employees Present
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ▣
+                        </div>
+
+                        <span class="badge badge-warning">
+                            Action
+                        </span>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${pendingLeaves}
+                    </div>
+
+                    <div class="stat-label">
+                        Pending Leave Requests
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ₹
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${totalPayroll.toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        Monthly Payroll
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Today's Attendance
+                            </div>
+
+                            <div class="muted">
+                                Organization attendance
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="navigate('attendanceReport')">
+
+                            Full Report
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="info-grid">
+
+                        <div class="info-box">
+
+                            <small>
+                                Present
+                            </small>
+
+                            <strong>
+                                ${present}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <small>
+                                Total Employees
+                            </small>
+
+                            <strong>
+                                ${employees.length}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <div class="card-title">
+                                Leave Approvals
+                            </div>
+
+                            <div class="muted">
+                                Requests requiring action
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    ${
+                        pendingLeaves > 0
+
+                        ? `
+
+                            <button
+                                class="btn btn-warning full-width"
+                                onclick="navigate('leaveRequests')">
+
+                                Review
+                                ${pendingLeaves}
+                                Pending Request(s)
+
+                            </button>
+
+                        `
+
+                        : `
+
+                            <div class="empty-state">
+                                No pending leave requests.
+                            </div>
+
+                        `
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Employees
+                        </div>
+
+                        <div class="muted">
+                            Current employees
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="navigate('employees')">
+
+                        Manage Employees
+
+                    </button>
+
+                </div>
+
+
+                ${employeeMiniTable(
+                    employees.slice(0, 5)
+                )}
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function renderProfile() {
+
+    document
+        .getElementById("profileContent")
+        .innerHTML = `
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <small>
+                        Employee ID
+                    </small>
+
+                    <strong>
+                        ${currentUser.id}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Email
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(currentUser.email)}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Department
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(currentUser.department)}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Designation
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(currentUser.designation)}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Phone
+                    </small>
+
+                    <strong>
+                        ${escapeHTML(
+                            currentUser.phone || "Not provided"
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Joining Date
+                    </small>
+
+                    <strong>
+                        ${formatDate(
+                            currentUser.joiningDate
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Employment Status
+                    </small>
+
+                    <strong>
+
+                        <span class="badge badge-success">
+                            Active
+                        </span>
+
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        Monthly Salary
+                    </small>
+
+                    <strong>
+                        ₹${Number(
+                            currentUser.salary
+                        ).toLocaleString("en-IN")}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   ATTENDANCE
+========================================================= */
+
+function getTodayAttendance() {
+
+    return attendance.find(
+        record =>
+            record.empId === currentUser.id &&
+            record.date === today()
+    );
+
+}
+
+
+function todayAttendanceHTML() {
+
+    const record =
+        getTodayAttendance();
+
+
+    if (!record) {
+
+        return `
+
+            <div class="empty-state">
+
+                <p style="margin-bottom:15px;">
+                    Attendance has not been marked today.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="markAttendance()">
+
+                    Mark Present
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="info-grid">
+
+            <div class="info-box">
+
+                <small>
+                    Status
+                </small>
+
+                <strong>
+
+                    <span class="badge badge-success">
+                        ${record.status}
+                    </span>
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <small>
+                    Check In
+                </small>
+
+                <strong>
+                    ${record.checkIn || "--"}
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <small>
+                    Check Out
+                </small>
+
+                <strong>
+                    ${record.checkOut || "--"}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        ${
+            !record.checkOut
+
+            ? `
+
+                <button
+                    class="btn btn-secondary full-width"
+                    style="margin-top:15px"
+                    onclick="markCheckout()">
+
+                    Check Out
+
+                </button>
+
+            `
+
+            : ""
+
+        }
+
+    `;
+
+}
+
+
+function markAttendance() {
+
+    if (getTodayAttendance()) {
+
+        showToast(
+            "Today's attendance is already marked."
+        );
+
+        return;
+
+    }
+
+
+    const now =
+        new Date().toLocaleTimeString(
+            "en-IN",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    attendance.push({
+
+        id: "ATT" + Date.now(),
+
+        empId: currentUser.id,
+
+        date: today(),
+
+        status: "Present",
+
+        checkIn: now,
+
+        checkOut: ""
+
+    });
+
+
+    saveAttendance();
+
+
+    showToast(
+        "Attendance marked successfully."
+    );
+
+
+    renderAttendance();
+
+}
+
+
+function markCheckout() {
+
+    const record =
+        getTodayAttendance();
+
+
+    if (!record) {
+        return;
+    }
+
+
+    record.checkOut =
+        new Date().toLocaleTimeString(
+            "en-IN",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    saveAttendance();
+
+
+    showToast(
+        "Check-out recorded successfully."
+    );
+
+
+    renderAttendance();
+
+}
+
+
+function renderAttendance() {
+
+    const records =
+        attendance
+            .filter(
+                record =>
+                    record.empId === currentUser.id
+            )
+            .sort(
+                (a,b) =>
+                    b.date.localeCompare(a.date)
+            );
+
+
+    document
+        .getElementById("attendanceContent")
+        .innerHTML = `
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Today's Attendance
+                        </div>
+
+                        <div class="muted">
+                            Mark your daily attendance.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                ${todayAttendanceHTML()}
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Attendance History
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                ${
+                    records.length
+
+                    ? `
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Date
+                                        </th>
+
+                                        <th>
+                                            Status
+                                        </th>
+
+                                        <th>
+                                            Check In
+                                        </th>
+
+                                        <th>
+                                            Check Out
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    ${
+                                        records.map(
+                                            record => `
+
+                                                <tr>
+
+                                                    <td>
+                                                        ${formatDate(
+                                                            record.date
+                                                        )}
+                                                    </td>
+
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-success">
+
+                                                            ${record.status}
+
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        ${record.checkIn || "--"}
+                                                    </td>
+
+                                                    <td>
+                                                        ${record.checkOut || "--"}
+                                                    </td>
+
+                                                </tr>
+
+                                            `
+                                        ).join("")
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    `
+
+                    : `
+
+                        <div class="empty-state">
+                            No attendance records available.
+                        </div>
+
+                    `
+                }
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   LEAVE
+========================================================= */
+
+function openLeaveModal() {
+
+    document
+        .getElementById("leaveModal")
+        .classList.add("show");
+
+}
+
+
+function submitLeave(event) {
+
+    event.preventDefault();
+
+
+    const from =
+        document
+            .getElementById("leaveFrom")
+            .value;
+
+
+    const to =
+        document
+            .getElementById("leaveTo")
+            .value;
+
+
+    if (to < from) {
+
+        showToast(
+            "To date cannot be before From date."
+        );
+
+        return;
+
+    }
+
+
+    leaves.push({
+
+        id: "LV" + Date.now(),
+
+        empId: currentUser.id,
+
+        type:
+            document
+                .getElementById("leaveType")
+                .value,
+
+        from: from,
+
+        to: to,
+
+        reason:
+            document
+                .getElementById("leaveReason")
+                .value
+                .trim(),
+
+        status: "Pending",
+
+        appliedDate: today()
+
+    });
+
+
+    saveLeaves();
+
+
+    document
+        .getElementById("leaveForm")
+        .reset();
+
+
+    closeModal("leaveModal");
+
+
+    showToast(
+        "Leave request submitted successfully."
+    );
+
+
+    renderEmployeeLeaves();
+
+}
+
+
+function renderEmployeeLeaves() {
+
+    const records =
+        leaves
+            .filter(
+                leave =>
+                    leave.empId === currentUser.id
+            )
+            .sort(
+                (a,b) =>
+                    b.appliedDate.localeCompare(
+                        a.appliedDate
+                    )
+            );
+
+
+    document
+        .getElementById("employeeLeaveContent")
+        .innerHTML =
+        renderLeaveTable(records);
+
+}
+
+
+function renderLeaveTable(records) {
+
+    if (!records.length) {
+
+        return `
+
+            <div class="empty-state">
+                No leave requests found.
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Leave Type
+                        </th>
+
+                        <th>
+                            From
+                        </th>
+
+                        <th>
+                            To
+                        </th>
+
+                        <th>
+                            Reason
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${
+                        records.map(
+                            leave => `
+
+                                <tr>
+
+                                    <td>
+                                        ${escapeHTML(
+                                            leave.type
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${formatDate(
+                                            leave.from
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${formatDate(
+                                            leave.to
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHTML(
+                                            leave.reason
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${statusBadge(
+                                            leave.status
+                                        )}
+                                    </td>
+
+                                </tr>
+
+                            `
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   PAYROLL
+========================================================= */
+
+function renderPayroll() {
+
+    const basic =
+        Number(currentUser.salary || 0);
+
+
+    const hra =
+        Math.round(basic * 0.20);
+
+
+    const allowance =
+        Math.round(basic * 0.10);
+
+
+    const gross =
+        basic + hra + allowance;
+
+
+    const deduction =
+        Math.round(gross * 0.05);
+
+
+    const net =
+        gross - deduction;
+
+
+    document
+        .getElementById("payrollContent")
+        .innerHTML = `
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ₹
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${basic.toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        Basic Salary
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            +
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${hra.toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        HRA
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            +
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${allowance.toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        Allowances
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${net.toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        Estimated Net Salary
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Salary Details
+                        </div>
+
+                        <div class="muted">
+                            Current monthly salary breakdown.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    Basic Salary
+                                </td>
+
+                                <td>
+                                    ₹${basic.toLocaleString("en-IN")}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    House Rent Allowance
+                                </td>
+
+                                <td>
+                                    ₹${hra.toLocaleString("en-IN")}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Other Allowances
+                                </td>
+
+                                <td>
+                                    ₹${allowance.toLocaleString("en-IN")}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Gross Salary
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        ₹${gross.toLocaleString("en-IN")}
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Estimated Deductions
+                                </td>
+
+                                <td>
+                                    -₹${deduction.toLocaleString("en-IN")}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Estimated Net Salary
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        ₹${net.toLocaleString("en-IN")}
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   ADMIN - EMPLOYEE MANAGEMENT
+========================================================= */
+
+function openEmployeeModal() {
+
+    document
+        .getElementById("employeeModal")
+        .classList.add("show");
+
+}
+
+
+function addEmployee(event) {
+
+    event.preventDefault();
+
+
+    const id =
+        document
+            .getElementById("newEmpId")
+            .value
+            .trim()
+            .toUpperCase();
+
+
+    const email =
+        document
+            .getElementById("newEmpEmail")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    if (
+        users.some(
+            user => user.id === id
+        )
+    ) {
+
+        showToast(
+            "Employee ID already exists."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        users.some(
+            user =>
+                user.email.toLowerCase() === email
+        )
+    ) {
+
+        showToast(
+            "Email already exists."
+        );
+
+        return;
+
+    }
+
+
+    const employee = {
+
+        id: id,
+
+        name:
+            document
+                .getElementById("newEmpName")
+                .value
+                .trim(),
+
+        email: email,
+
+        password:
+            document
+                .getElementById("newEmpPassword")
+                .value,
+
+        role: "employee",
+
+        department:
+            document
+                .getElementById("newEmpDepartment")
+                .value,
+
+        designation:
+            document
+                .getElementById("newEmpDesignation")
+                .value
+                .trim(),
+
+        salary:
+            Number(
+                document
+                    .getElementById("newEmpSalary")
+                    .value
+            ),
+
+        phone:
+            document
+                .getElementById("newEmpPhone")
+                .value
+                .trim(),
+
+        joiningDate: today()
+
+    };
+
+
+    users.push(employee);
+
+    saveUsers();
+
+
+    document
+        .getElementById("employeeForm")
+        .reset();
+
+
+    closeModal("employeeModal");
+
+
+    showToast(
+        "Employee created successfully."
+    );
+
+
+    renderEmployees();
+
+}
+
+
+function renderEmployees() {
+
+    const search =
+        (
+            document
+                .getElementById("employeeSearch")
+                ?.value || ""
+        )
+        .toLowerCase();
+
+
+    const employees =
+        users
+            .filter(
+                user =>
+                    user.role === "employee"
+            )
+            .filter(
+                user =>
+                    user.name
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    user.id
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    user.department
+                        .toLowerCase()
+                        .includes(search)
+            );
+
+
+    document
+        .getElementById("employeesContent")
+        .innerHTML = `
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee
+                            </th>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Designation
+                            </th>
+
+                            <th>
+                                Salary
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            employees.length
+
+                            ? employees.map(
+                                employee => `
+
+                                    <tr>
+
+                                        <td>
+
+                                            <strong>
+                                                ${escapeHTML(
+                                                    employee.name
+                                                )}
+                                            </strong>
+
+                                            <br>
+
+                                            <span class="muted">
+                                                ${escapeHTML(
+                                                    employee.email
+                                                )}
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+                                            ${employee.id}
+                                        </td>
+
+
+                                        <td>
+                                            ${escapeHTML(
+                                                employee.department
+                                            )}
+                                        </td>
+
+
+                                        <td>
+                                            ${escapeHTML(
+                                                employee.designation
+                                            )}
+                                        </td>
+
+
+                                        <td>
+                                            ₹${Number(
+                                                employee.salary
+                                            ).toLocaleString(
+                                                "en-IN"
+                                            )}
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="badge badge-success">
+                                                Active
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <button
+                                                class="btn btn-danger"
+                                                onclick="deleteEmployee('${employee.id}')">
+
+                                                Delete
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                `
+                            ).join("")
+
+                            : `
+
+                                <tr>
+
+                                    <td
+                                        colspan="7"
+                                        class="empty-state">
+
+                                        No employees found.
+
+                                    </td>
+
+                                </tr>
+
+                            `
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+}
+
+
+function deleteEmployee(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete this employee?"
+        )
+    ) {
+        return;
+    }
+
+
+    users =
+        users.filter(
+            user =>
+                user.id !== id
+        );
+
+
+    attendance =
+        attendance.filter(
+            record =>
+                record.empId !== id
+        );
+
+
+    leaves =
+        leaves.filter(
+            leave =>
+                leave.empId !== id
+        );
+
+
+    saveUsers();
+
+    saveAttendance();
+
+    saveLeaves();
+
+
+    showToast(
+        "Employee deleted successfully."
+    );
+
+
+    renderEmployees();
+
+}
+
+
+/* =========================================================
+   ADMIN - LEAVE REQUESTS
+========================================================= */
+
+function renderLeaveRequests() {
+
+    const records =
+        leaves
+            .slice()
+            .sort(
+                (a,b) =>
+                    b.appliedDate.localeCompare(
+                        a.appliedDate
+                    )
+            );
+
+
+    if (!records.length) {
+
+        document
+            .getElementById("leaveRequestsContent")
+            .innerHTML = `
+
+                <div class="empty-state">
+                    No leave requests found.
+                </div>
+
+            `;
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("leaveRequestsContent")
+        .innerHTML = `
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Duration
+                            </th>
+
+                            <th>
+                                Reason
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            records.map(
+                                leave => {
+
+                                    const employee =
+                                        users.find(
+                                            user =>
+                                                user.id ===
+                                                leave.empId
+                                        );
+
+
+                                    return `
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong>
+                                                    ${
+                                                        employee
+                                                            ? escapeHTML(
+                                                                employee.name
+                                                            )
+                                                            : "Unknown"
+                                                    }
+                                                </strong>
+
+                                                <br>
+
+                                                <span class="muted">
+                                                    ${leave.empId}
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+                                                ${escapeHTML(
+                                                    leave.type
+                                                )}
+                                            </td>
+
+
+                                            <td>
+                                                ${formatDate(
+                                                    leave.from
+                                                )}
+                                                →
+                                                ${formatDate(
+                                                    leave.to
+                                                )}
+                                            </td>
+
+
+                                            <td>
+                                                ${escapeHTML(
+                                                    leave.reason
+                                                )}
+                                            </td>
+
+
+                                            <td>
+                                                ${statusBadge(
+                                                    leave.status
+                                                )}
+                                            </td>
+
+
+                                            <td>
+
+                                                ${
+                                                    leave.status ===
+                                                    "Pending"
+
+                                                    ? `
+
+                                                        <div class="actions">
+
+                                                            <button
+                                                                class="btn btn-success"
+                                                                onclick="updateLeaveStatus('${leave.id}','Approved')">
+
+                                                                Approve
+
+                                                            </button>
+
+
+                                                            <button
+                                                                class="btn btn-danger"
+                                                                onclick="updateLeaveStatus('${leave.id}','Rejected')">
+
+                                                                Reject
+
+                                                            </button>
+
+                                                        </div>
+
+                                                    `
+
+                                                    : "--"
+                                                }
+
+                                            </td>
+
+                                        </tr>
+
+                                    `;
+
+                                }
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+}
+
+
+function updateLeaveStatus(id, status) {
+
+    const leave =
+        leaves.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!leave) {
+        return;
+    }
+
+
+    leave.status = status;
+
+
+    saveLeaves();
+
+
+    showToast(
+        "Leave request " +
+        status.toLowerCase() +
+        "."
+    );
+
+
+    renderLeaveRequests();
+
+}
+
+
+/* =========================================================
+   ATTENDANCE REPORT
+========================================================= */
+
+function renderAttendanceReport() {
+
+    const employees =
+        users.filter(
+            user =>
+                user.role === "employee"
+        );
+
+
+    document
+        .getElementById("attendanceReportContent")
+        .innerHTML = `
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Present
+                            </th>
+
+                            <th>
+                                Total Records
+                            </th>
+
+                            <th>
+                                Attendance %
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            employees.map(
+                                employee => {
+
+                                    const records =
+                                        attendance.filter(
+                                            record =>
+                                                record.empId ===
+                                                employee.id
+                                        );
+
+
+                                    const present =
+                                        records.filter(
+                                            record =>
+                                                record.status ===
+                                                "Present"
+                                        ).length;
+
+
+                                    const percentage =
+                                        records.length
+                                            ? Math.round(
+                                                (
+                                                    present /
+                                                    records.length
+                                                ) * 100
+                                            )
+                                            : 0;
+
+
+                                    return `
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong>
+                                                    ${escapeHTML(
+                                                        employee.name
+                                                    )}
+                                                </strong>
+
+                                                <br>
+
+                                                <span class="muted">
+                                                    ${employee.id}
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+                                                ${escapeHTML(
+                                                    employee.department
+                                                )}
+                                            </td>
+
+
+                                            <td>
+                                                ${present}
+                                            </td>
+
+
+                                            <td>
+                                                ${records.length}
+                                            </td>
+
+
+                                            <td style="min-width:160px">
+
+                                                <strong>
+                                                    ${percentage}%
+                                                </strong>
+
+                                                <div
+                                                    class="progress"
+                                                    style="margin-top:6px">
+
+                                                    <div
+                                                        class="progress-bar"
+                                                        style="
+                                                            width:${percentage}%;
+                                                        ">
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    `;
+
+                                }
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   ADMIN PAYROLL
+========================================================= */
+
+function renderPayrollAdmin() {
+
+    const employees =
+        users.filter(
+            user =>
+                user.role === "employee"
+        );
+
+
+    const totalPayroll =
+        employees.reduce(
+            (total, employee) =>
+                total +
+                Number(employee.salary || 0),
+            0
+        );
+
+
+    document
+        .getElementById("payrollAdminContent")
+        .innerHTML = `
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ♙
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ${employees.length}
+                    </div>
+
+                    <div class="stat-label">
+                        Employees on Payroll
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ₹
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹${totalPayroll.toLocaleString("en-IN")}
+                    </div>
+
+                    <div class="stat-label">
+                        Total Monthly Payroll
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Designation
+                            </th>
+
+                            <th>
+                                Basic
+                            </th>
+
+                            <th>
+                                HRA
+                            </th>
+
+                            <th>
+                                Gross
+                            </th>
+
+                            <th>
+                                Net
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            employees.map(
+                                employee => {
+
+                                    const basic =
+                                        Number(
+                                            employee.salary
+                                        );
+
+
+                                    const hra =
+                                        basic * 0.20;
+
+
+                                    const allowance =
+                                        basic * 0.10;
+
+
+                                    const gross =
+                                        basic +
+                                        hra +
+                                        allowance;
+
+
+                                    const deduction =
+                                        gross * 0.05;
+
+
+                                    const net =
+                                        gross -
+                                        deduction;
+
+
+                                    return `
+
+                                        <tr>
+
+                                            <td>
+                                                <strong>
+                                                    ${escapeHTML(
+                                                        employee.name
+                                                    )}
+                                                </strong>
+                                            </td>
+
+                                            <td>
+                                                ${escapeHTML(
+                                                    employee.department
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ${escapeHTML(
+                                                    employee.designation
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ₹${basic.toLocaleString(
+                                                    "en-IN"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ₹${hra.toLocaleString(
+                                                    "en-IN"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ₹${gross.toLocaleString(
+                                                    "en-IN"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                <strong>
+                                                    ₹${net.toLocaleString(
+                                                        "en-IN"
+                                                    )}
+                                                </strong>
+                                            </td>
+
+                                        </tr>
+
+                                    `;
+
+                                }
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function today() {
+
+    const date =
+        new Date();
+
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+function formatDate(value) {
+
+    if (!value) {
+        return "--";
+    }
+
+
+    return new Date(
+        value + "T00:00:00"
+    ).toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+function statusBadge(status) {
+
+    let className =
+        "badge-warning";
+
+
+    if (status === "Approved") {
+
+        className =
+            "badge-success";
+
+    }
+
+
+    if (status === "Rejected") {
+
+        className =
+            "badge-danger";
+
+    }
+
+
+    return `
+
+        <span class="badge ${className}">
+            ${escapeHTML(status)}
+        </span>
+
+    `;
+
+}
+
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   EMPLOYEE MINI TABLE
+========================================================= */
+
+function employeeMiniTable(employees) {
+
+    if (!employees.length) {
+
+        return `
+
+            <div class="empty-state">
+                No employees available.
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Employee
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Designation
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${
+                        employees.map(
+                            employee => `
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                employee.name
+                                            )}
+                                        </strong>
+
+                                        <br>
+
+                                        <span class="muted">
+                                            ${employee.id}
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        ${escapeHTML(
+                                            employee.department
+                                        )}
+                                    </td>
+
+
+                                    <td>
+                                        ${escapeHTML(
+                                            employee.designation
+                                        )}
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="badge badge-success">
+                                            Active
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            `
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function closeModal(id) {
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+}
+
+
+document
+    .querySelectorAll(".modal")
+    .forEach(
+        modal => {
+
+            modal.addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target === modal
+                    ) {
+
+                        modal.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2800
+        );
+
+}
+
+
+/* =========================================================
+   CURRENT DATE
+========================================================= */
+
+document
+    .getElementById("currentDate")
+    .textContent =
+    new Date().toLocaleDateString(
+        "en-IN",
+        {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+checkExistingSession();
+
+</script>
 
 </body>
 </html>

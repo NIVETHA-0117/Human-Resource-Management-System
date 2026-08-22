@@ -1,110 +1,214 @@
-let users = JSON.parse(localStorage.getItem("dayflow_users")) || [
-  {
-    empId: "EMP-0001",
-    name: "Meera Admin",
-    email: "admin@dayflow.com",
-    password: "Admin1234",
-    role: "admin",
-    department: "Human Resources",
-    title: "HR Manager",
-    phone: "9840012345",
-    address: "Chennai, IN",
-    joined: "2021-03-01",
-    salary: {
-      base: 70000,
-      allowances: 8000,
-      deductions: 4000
-    }
-  },
+/* =========================================================
+   data.js
+   Dayflow HRMS - Application Data
+========================================================= */
 
-  {
-    empId: "EMP-1042",
-    name: "Asha Rao",
-    email: "asha@dayflow.com",
-    password: "Asha1234",
-    role: "employee",
-    department: "Engineering",
-    title: "Frontend Developer",
-    phone: "9876543210",
-    address: "T. Nagar, Chennai",
-    joined: "2023-06-12",
-    salary: {
-      base: 52000,
-      allowances: 6000,
-      deductions: 3200
+const DEFAULT_USERS = [
+
+    {
+        id: "ADM001",
+        empId: "ADM001",
+        name: "Dayflow Administrator",
+        email: "admin@dayflow.com",
+        password: "Admin@123",
+        role: "Admin",
+        department: "Human Resources",
+        designation: "HR Administrator",
+        phone: "+91 9876543210",
+        salary: 75000,
+        status: "Active"
+    },
+
+    {
+        id: "EMP001",
+        empId: "EMP001",
+        name: "Demo Employee",
+        email: "employee@dayflow.com",
+        password: "Employee@123",
+        role: "Employee",
+        department: "Information Technology",
+        designation: "Software Developer",
+        phone: "+91 9876543211",
+        salary: 45000,
+        status: "Active"
     }
-  }
+
 ];
 
-let attendance =
-  JSON.parse(localStorage.getItem("dayflow_attendance")) || [];
 
-let leaveRequests =
-  JSON.parse(localStorage.getItem("dayflow_leave")) || [];
+/* =========================================================
+   DATABASE HELPERS
+========================================================= */
 
-let currentUser = null;
+function initializeData() {
 
-let leaveIdSeq =
-  Number(localStorage.getItem("dayflow_leave_id")) || 1;
+    if (!localStorage.getItem("dayflow_users")) {
 
+        localStorage.setItem(
+            "dayflow_users",
+            JSON.stringify(DEFAULT_USERS)
+        );
 
-function saveData() {
+    }
 
-  localStorage.setItem(
-    "dayflow_users",
-    JSON.stringify(users)
-  );
+    if (!localStorage.getItem("dayflow_attendance")) {
 
-  localStorage.setItem(
-    "dayflow_attendance",
-    JSON.stringify(attendance)
-  );
+        localStorage.setItem(
+            "dayflow_attendance",
+            JSON.stringify([])
+        );
 
-  localStorage.setItem(
-    "dayflow_leave",
-    JSON.stringify(leaveRequests)
-  );
+    }
 
-  localStorage.setItem(
-    "dayflow_leave_id",
-    leaveIdSeq
-  );
+    if (!localStorage.getItem("dayflow_leave")) {
+
+        localStorage.setItem(
+            "dayflow_leave",
+            JSON.stringify([])
+        );
+
+    }
+
+    if (!localStorage.getItem("dayflow_payroll")) {
+
+        localStorage.setItem(
+            "dayflow_payroll",
+            JSON.stringify([])
+        );
+
+    }
+
 }
 
 
-function makeCard(card) {
+/* =========================================================
+   USERS
+========================================================= */
 
-  const div = document.createElement("div");
+function getUsers() {
 
-  div.className = "qcard";
+    try {
 
-  div.onclick = function () {
-    nav(card.v);
-  };
+        return JSON.parse(
+            localStorage.getItem("dayflow_users")
+        ) || [];
 
-  div.innerHTML = `
-    <div class="n">${card.n}</div>
-    <div class="l">${card.l}</div>
-  `;
+    } catch (error) {
 
-  return div;
+        console.error("Unable to load users:", error);
+
+        return [];
+
+    }
+
 }
 
 
-function statusPill(status) {
+function saveUsers(users) {
 
-  const map = {
-    Pending: "pill-pending",
-    Approved: "pill-approved",
-    Rejected: "pill-rejected",
-    Present: "pill-present",
-    Absent: "pill-absent",
-    "Half-day": "pill-half"
-  };
+    localStorage.setItem(
+        "dayflow_users",
+        JSON.stringify(users)
+    );
 
-  return `
-    <span class="pill ${map[status] || "pill-pending"}">
-      ${status}
-    </span>
-  `;
 }
+
+
+/* =========================================================
+   ATTENDANCE
+========================================================= */
+
+function getAttendance() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("dayflow_attendance")
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveAttendance(records) {
+
+    localStorage.setItem(
+        "dayflow_attendance",
+        JSON.stringify(records)
+    );
+
+}
+
+
+/* =========================================================
+   LEAVE
+========================================================= */
+
+function getLeaveRequests() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("dayflow_leave")
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveLeaveRequests(records) {
+
+    localStorage.setItem(
+        "dayflow_leave",
+        JSON.stringify(records)
+    );
+
+}
+
+
+/* =========================================================
+   PAYROLL
+========================================================= */
+
+function getPayroll() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("dayflow_payroll")
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function savePayroll(records) {
+
+    localStorage.setItem(
+        "dayflow_payroll",
+        JSON.stringify(records)
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+initializeData();
