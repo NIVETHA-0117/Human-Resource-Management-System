@@ -12,7 +12,6 @@
 
 <body>
 
-    <!-- ================= SIGN UP ================= -->
     <div class="auth-wrap view active" id="view-signup">
 
         <div class="auth-card">
@@ -90,7 +89,6 @@
     </div>
 
 
-    <!-- ================= SIGN IN ================= -->
     <div class="auth-wrap view" id="view-signin">
 
         <div class="auth-card">
@@ -155,10 +153,8 @@
     </div>
 
 
-    <!-- ================= APPLICATION ================= -->
     <div class="app view" id="view-app">
 
-        <!-- ================= SIDEBAR ================= -->
         <div class="sidebar">
 
             <div class="brand">
@@ -279,11 +275,9 @@
         </div>
 
 
-        <!-- ================= MAIN CONTENT ================= -->
         <div class="main">
 
 
-            <!-- ================= DASHBOARD ================= -->
             <div class="view" id="sub-dash">
 
                 <div class="topbar">
@@ -319,7 +313,6 @@
             </div>
 
 
-            <!-- ================= PROFILE ================= -->
             <div class="view" id="sub-profile">
 
                 <div class="topbar">
@@ -463,7 +456,6 @@
             </div>
 
 
-            <!-- ================= EMPLOYEES ================= -->
             <div class="view" id="sub-employees">
 
                 <div class="topbar">
@@ -506,7 +498,6 @@
             </div>
 
 
-            <!-- ================= ATTENDANCE ================= -->
             <div class="view" id="sub-attendance">
 
                 <div class="topbar">
@@ -569,7 +560,6 @@
             </div>
 
 
-            <!-- ================= LEAVE ================= -->
             <div class="view" id="sub-leave">
 
                 <div class="topbar">
@@ -710,7 +700,6 @@
             </div>
 
 
-            <!-- ================= PAYROLL ================= -->
             <div class="view" id="sub-payroll">
 
                 <div class="topbar">
@@ -731,7 +720,6 @@
                 </div>
 
 
-                <!-- EMPLOYEE PAYROLL -->
                 <div
                     id="pay_employeeOnly"
                     class="panel"
@@ -767,7 +755,6 @@
                 </div>
 
 
-                <!-- ADMIN PAYROLL -->
                 <div
                     id="pay_adminOnly"
                     style="display:none;">
@@ -803,7 +790,6 @@
             </div>
 
 
-            <!-- ================= REPORTS ================= -->
             <div class="view" id="sub-reports">
 
                 <div class="topbar">
@@ -875,9 +861,8 @@
     </div>
 
 
-    <!-- ================================================= -->
-    <!-- JAVASCRIPT FILES -->
-    <!-- ================================================= -->
+    
+  
 
     <script src="js/data.js"></script>
     <script src="js/nav.js"></script>
