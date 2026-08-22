@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- SIGN UP -->
+<!-- =================== AUTH: SIGN UP =================== -->
 <div class="auth-wrap view active" id="view-signup">
   <div class="auth-card">
     <div class="auth-brand">
@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<!-- SIGN IN -->
+<!-- =================== AUTH: SIGN IN =================== -->
 <div class="auth-wrap view" id="view-signin">
   <div class="auth-card">
     <div class="auth-brand">
@@ -50,7 +50,7 @@
   </div>
 </div>
 
-<!-- APP SHELL -->
+<!-- =================== APP SHELL =================== -->
 <div class="app view" id="view-app">
   <div class="sidebar">
     <div class="brand"><div class="mark">D</div><div class="word">Dayflow</div></div>
@@ -79,12 +79,17 @@
 
   <div class="main">
 
+    <!-- ---- DASHBOARD ---- -->
     <div class="view" id="sub-dash">
       <div class="topbar"><div><h2 id="dashGreeting">Welcome</h2><div class="sub" id="dashSub"></div></div></div>
       <div class="cards" id="dashCards"></div>
-      <div class="panel"><h3>Recent activity</h3><div id="dashActivity"></div></div>
+      <div class="panel">
+        <h3>Recent activity</h3>
+        <div id="dashActivity"></div>
+      </div>
     </div>
 
+    <!-- ---- PROFILE (employee) ---- -->
     <div class="view" id="sub-profile">
       <div class="topbar"><div><h2>My Profile</h2><div class="sub">View your details and edit contact info</div></div>
         <button class="btn btn-outline btn-sm" onclick="toggleEditProfile()">Edit</button>
@@ -115,6 +120,7 @@
       </div>
     </div>
 
+    <!-- ---- EMPLOYEES (admin) ---- -->
     <div class="view" id="sub-employees">
       <div class="topbar"><div><h2>Employees</h2><div class="sub">All registered staff</div></div></div>
       <div class="panel">
@@ -123,6 +129,7 @@
       </div>
     </div>
 
+    <!-- ---- ATTENDANCE ---- -->
     <div class="view" id="sub-attendance">
       <div class="topbar">
         <div><h2 id="att_title">Attendance</h2><div class="sub" id="att_sub">Daily & weekly record</div></div>
@@ -138,6 +145,7 @@
       </div>
     </div>
 
+    <!-- ---- LEAVE ---- -->
     <div class="view" id="sub-leave">
       <div class="topbar"><div><h2 id="leave_title">Leave Requests</h2><div class="sub" id="leave_sub"></div></div>
         <button class="btn btn-primary btn-sm" id="applyLeaveBtn" style="width:auto;" onclick="toggleLeaveForm()">+ Apply for Leave</button>
@@ -163,6 +171,7 @@
       </div>
     </div>
 
+    <!-- ---- PAYROLL ---- -->
     <div class="view" id="sub-payroll">
       <div class="topbar"><div><h2 id="pay_title">Payroll</h2><div class="sub" id="pay_sub"></div></div></div>
       <div id="pay_employeeOnly" class="panel" style="display:none;">
@@ -180,6 +189,7 @@
       </div>
     </div>
 
+    <!-- ---- REPORTS (admin) ---- -->
     <div class="view" id="sub-reports">
       <div class="topbar"><div><h2>Reports</h2><div class="sub">Salary slips & attendance summaries</div></div></div>
       <div class="grid2">
@@ -195,6 +205,8 @@
   </div>
 </div>
 
+<!-- ============ LINKING ALL THE JAVASCRIPT FILES ============ -->
+<!-- Order matters: data.js and nav.js MUST load first -->
 <script src="js/data.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/auth.js"></script>
